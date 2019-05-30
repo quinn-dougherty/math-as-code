@@ -235,7 +235,7 @@ np.testing.assert_almost_equal(z1**3, z2**3)
 ```
 [Read on about numpy's complex numbers](https://docs.scipy.org/doc/numpy/user/basics.types.html)
 
-## dot & cross
+## vectors
 
 The dot `·` and cross `×` symbols have different uses depending on context.
 
@@ -295,18 +295,6 @@ Let's take our earlier example but apply it to vectors. For element-wise vector 
 
 In other instances, the author might explicitly define a different notation, such as a circled dot `⊙` or a filled circle `●`.<sup>[3]</sup>
 
-Here is how it would look in code, using arrays `[x, y]` to represent the 2D vectors.
-
-```python
-s = 3
-k = [1, 2]
-j = [2, 3]
-
-tmp = multiply(k, j)
-result = multiply_scalar(tmp, s)
-# Out: [6, 18]
-```
-
 The function for arbitary length vectors would look like this
 
 ```python 
@@ -315,7 +303,18 @@ def hadamard(xs, ys):
   return [x*y for x,y in zip(xs,ys)]
 ```
 
+If we let `k=[1,2]` and `j=[2,3]` length two vectors, here is how it would look in code.
+
+```python
+k = [1, 2]
+j = [2, 3]
+
+multiply_scalar(3, hadamard(k, j)
+# Out: [6, 18]
+```
+
 If you're working with numpy arrays, the **broadcasting** syntax sugar gives you hadamard for free
+
 ```python
 u = np.array([1,2,3,4,5])
 v = np.array([9,8,7,6,5])
@@ -324,7 +323,9 @@ u * v
 # Out: array([ 9, 16, 21, 24, 25])
 ```
 
-with a `ValueError` raised if the vectors are of unequal length. 
+So we can write _literally_ the same as math notation, `3 * k * j`, where _in context_ the `*` means something slightly different each time. 
+
+As usual, numpy's **broadcasting** will raise you a `ValueError` if the vectors are of unequal length. 
 
 #### dot product
 
