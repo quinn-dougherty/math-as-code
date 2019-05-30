@@ -267,10 +267,26 @@ If these variables represent scalars, the code would be:
 result = 3 * k * j
 ```
 
-#### vector multiplication
+#### vector scaling
 
 To denote multiplication of one vector with a scalar, or element-wise multiplication of a vector with another vector, we typically do not use the dot `·` or cross `×` symbols. These have different meanings in linear algebra, discussed shortly.
+Our `multiply_scalar` function looks like this:
 
+```python
+def multiply_scalar(scalar, a):
+  return [scalar * aa for aa in a]
+```
+
+Similarly, matrix multiplication typically does not use the dot `·` or cross symbol `×`. 
+
+Numpy's broadcasted syntax for scaling looks like this: 
+
+```python
+def multiply_scalar(scalar, a): 
+  return scalar * np.array(a)
+```
+
+#### vector multiplication: element-wise. 
 Let's take our earlier example but apply it to vectors. For element-wise vector multiplication, you might see an open dot `∘` to represent the [Hadamard product](https://en.wikipedia.org/wiki/Hadamard_product_%28matrices%29).<sup>[2]</sup>
 
 ![dotcross3](http://latex.codecogs.com/svg.latex?3%5Cmathbf%7Bk%7D%5Ccirc%5Cmathbf%7Bj%7D)
@@ -291,26 +307,24 @@ result = multiply_scalar(tmp, s)
 # Out: [6, 18]
 ```
 
-Our `multiply` and `multiply_scalar` functions look like this:
+The function for arbitary length vectors would look like this
 
-```python
-def multiply(a, b):
-  return [aa * bb for aa,bb in zip(a,b)
-
-
-def multiply_scalar(scalar, a):
-  return [scalar * aa for aa in a]
-
+```python 
+def hadamard(xs, ys): 
+  assert len(xs)==len(ys)
+  return [x*y for x,y in zip(xs,ys)]
 ```
 
-Similarly, matrix multiplication typically does not use the dot `·` or cross symbol `×`. 
-
-Numpy's broadcasted syntax for scaling looks like this: 
-
+If you're working with numpy arrays, the **broadcasting** syntax sugar gives you hadamard for free
 ```python
-def multiply_scalar(scalar, a): 
-  return scalar * np.array(a)
+u = np.array([1,2,3,4,5])
+v = np.array([9,8,7,6,5])
+
+u * v
+# Out: array([ 9, 16, 21, 24, 25])
 ```
+
+with a `ValueError` raised if the vectors are of unequal length. 
 
 #### dot product
 
